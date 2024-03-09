@@ -21,10 +21,6 @@ public:
     omega_ = 6.28 * 0.01 / 20; // 10s一圈
     angle_publisher_ = this->create_publisher<std_msgs::msg::Float64>("/model/x500_mono_cam_0/servo_lidar", 10);
     subscription_ = this->create_subscription<sensor_msgs::msg::JointState>("/servo_lidar_states", 10, std::bind(&ExamplePublisher::jointStateCallback, this, _1));
-    // Initialize the transform broadcaster
-    tf_broadcaster_ = std::make_unique<tf2_ros::TransformBroadcaster>(*this);
-    //休眠10s后在开始工作
-    std::this_thread::sleep_for(std::chrono::seconds(10));  
     RCLCPP_INFO(this->get_logger(), "10 seconds have passed!");
     timer_ = this->create_wall_timer(1ms, std::bind(&ExamplePublisher::timer_callback, this));
   }
